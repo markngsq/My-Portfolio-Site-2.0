@@ -5,23 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "html": "html-minifier --collapse-whitespace ./src/index.html -o ./dist/index.html",
-    "css": "gulp sass",
-    "js": "browserify ./src/js/main.js | uglifyjs > ./dist/js/bundle.js",
-    "fonts": "fontify",
-    "build": "npm run html & npm run css & npm run js & npm run fonts",
-    "watch-html": "nodemon --ext html --watch ./src/ --exec 'npm run html'",
-    "watch-css": "nodemon --ext styl --watch ./src/css --exec 'npm run css'",
-    "watch-js": "nodemon --ext js --watch ./src/js --exec 'npm run js'",
-    "watch": "npm run watch-html & npm run watch-css & npm run watch-js",
-    "server": "npm run watch & live-server --port=3000 ./dist"
+    "html": "html-minifier --collapse-whitespace ./src/index.html -o ./dist/index.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^2.11.1",
-    "browserify": "^13.0.0",
     "concat": "^1.0.0",
     "css-concat": "0.0.4",
     "fontify": "0.0.2",
@@ -30,12 +20,7 @@
     "gulp-cssnano": "^2.1.1",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.2.0",
-    "html-minifier": "^1.1.1",
-    "live-server": "^0.9.1",
-    "nodemon": "^1.8.1",
-    "sass": "^0.5.0",
-    "stylus": "^0.53.0",
-    "uglify-js": "^2.6.1"
+    "sass": "^0.5.0"
   },
   "dependencies": {
     "bootstrap": "^3.3.6",

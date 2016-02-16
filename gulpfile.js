@@ -44,12 +44,14 @@ console.log ('Gulp is so cool. Yay!');
 
 
 ///Keeping an eye out for anyone saving files
-gulp.task('build', ['watch','browserSync','sass'])
+gulp.task('build', ['watch','browserSync','images','html','javascript','sass','jquery'])
 
 gulp.task('watch', function(){
+  gulp.watch('**/*.php'),  browserSync.reload();
   gulp.watch('src/scss/**/*.scss', ['sass']);
-  gulp.watch('dist/*.html', browserSync.reload);
-  gulp.watch('src/js/**/*.js', browserSync.reload);
+  gulp.watch('src/*.html', ['html']);
+  gulp.watch('src/js/*.js', ['javascript']);
+  gulp.watch('src/images/**/*', ['images']);
    // Other watchers
  })
 
@@ -62,8 +64,9 @@ gulp.task('browserSync', function(){
     })
 })
 
+
 //Generates the Final CSS and flattens it to shit
-gulp.task('sass', ['fonts'], function(){
+gulp.task('sass', ['fonts','images'], function(){
   return gulp.src('src/scss/*.scss')
   .pipe(sass({
       includePaths: [config.bootstrapDir + '/assets/stylesheets'],
@@ -76,6 +79,41 @@ gulp.task('sass', ['fonts'], function(){
       stream: true
     }))
 });
+
+//html
+gulp.task('html', function() {
+    return gulp.src('src/index.html')
+    .pipe(gulp.dest('dist'))
+    .pipe(browserSync.reload({
+    stream: true
+  }))
+});
+
+//images
+gulp.task('images', function() {
+    return gulp.src('src/images/**/*')
+    .pipe(gulp.dest('dist/images'))
+    .pipe(browserSync.reload({
+    stream: true
+  }))
+});
+
+//javascript
+gulp.task('javascript', function() {
+    return gulp.src('src/js/**/*.js')
+    .pipe(concat ('site.js'))
+    .pipe(gulp.dest('dist/js'))
+    .pipe(browserSync.reload({
+    stream: true
+  }))
+});
+
+gulp.task('jquery', function () {
+    return gulp.src('node_modules/jquery/dist/*.min.js')
+        .pipe(gulp.dest('src/js'));
+    // creates ./public/vendor/jquery.custom.js
+});
+
 
 //bootstrap fonts
 gulp.task('fonts', function() {
