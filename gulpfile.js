@@ -4,13 +4,14 @@ var concat = require('gulp-concat');
 var cssnano = require('gulp-cssnano');
 var rename = require('gulp-rename');
 var browserSync = require('browser-sync').create();
+var php = require('gulp-connect-php');
 //var CSS_FILES = 'src/**/*.css';
 
 
 // source and distribution folder
-var
-    source = 'src/',
-    dest = 'dist/';
+
+var source = 'src/';
+var dest = 'dist/';
 
 // Bootstrap scss source
 
@@ -44,25 +45,36 @@ console.log ('Gulp is so cool. Yay!');
 
 
 ///Keeping an eye out for anyone saving files
-gulp.task('build', ['watch','browserSync','images','html','javascript','sass','jquery'])
+gulp.task('build', ['watch','browser-sync','images','html','javascript','sass','jquery','php'])
 
 gulp.task('watch', function(){
-  gulp.watch('**/*.php'),  browserSync.reload();
   gulp.watch('src/scss/**/*.scss', ['sass']);
   gulp.watch('src/*.html', ['html']);
   gulp.watch('src/js/*.js', ['javascript']);
   gulp.watch('src/images/**/*', ['images']);
+  gulp.watch('dist/*.php'), browserSync.reload();
    // Other watchers
  })
+ gulp.task('default', ['browser-sync'], function () {
+     gulp.watch(['build/*.php'], [reload]);
+ });
 
-//Live webpage reloads yarr
-gulp.task('browserSync', function(){
+
+
+// New Live webpage reload with PHP
+gulp.task('php', function() {
+    php.server({ base: 'dist', port: 8010, keepalive: true});
+});
+gulp.task('browser-sync',['php'], function() {
     browserSync.init({
-      server:{
-        baseDir: 'dist'
-      },
-    })
-})
+        proxy: '127.0.0.1:8010',
+        port: 8080,
+        open: true,
+        notify: false
+    });
+});
+
+
 
 
 //Generates the Final CSS and flattens it to shit
