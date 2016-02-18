@@ -1,122 +1,187 @@
-var gulp = require('gulp');
+var gulp = require('gulp-help')(require('gulp'));
+
+// build
+var browserSync = require('browser-sync').create();
+
+// css / js / img / lint
+var sourcemaps = require('gulp-sourcemaps');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
+var autoprefixer = require('gulp-autoprefixer');
 var cssnano = require('gulp-cssnano');
-var rename = require('gulp-rename');
-var browserSync = require('browser-sync').create();
-//var CSS_FILES = 'src/**/*.css';
+var eslint = require('gulp-eslint');
+var newer = require('gulp-newer');
+var imagemin = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');
 
+// files
+var packageJSON = require('./package.json');
+
+/**
+ * Variables
+ */
 
 // source and distribution folder
-var
-    source = 'src/',
-    dest = 'dist/';
+var LISTEN_PORT = 8000;
 
-// Bootstrap scss source
+var SRC_DIRECTORY ='./src';
+var DIST_DIRECTORY ='./dist';
+var JS_DIST = DIST_DIRECTORY + '/js/';
+var CSS_DIST = DIST_DIRECTORY + '/css/';
+var IMG_DIST = DIST_DIRECTORY + '/images/';
+var FONT_DIST = DIST_DIRECTORY + '/fonts/';
 
-var config = {
-    bootstrapDir: 'node_modules/bootstrap-sass',
-    publicDir: 'dist',
-};
+var JS_APP = packageJSON.name + '.js';
+var CSS_APP = packageJSON.name + '.css';
 
-var bootstrapSass = {
-    in: 'node_modules/bootstrap-sass/'
-};
-// css source file: .scss files
-var css = {
-    in: source + 'css/main.scss',
-    out: dest + 'css/',
-    watch: source + 'css/**/*',
-    sassOpts: {
-        outputStyle: 'nested',
-        precison: 3,
-        errLogToConsole: true,
-        includePaths: [bootstrapSass.in + 'assets/stylesheets']
-            }
-        };
-
-gulp.task('default', function(){
-console.log ('Gulp is so cool. Yay!');
-
-})
+// Files
+var LINT_FILES = [
+  'src/**/*.js'
+];
+var SCSS_FILES = [
+  'src/scss/*.scss'
+];
+var JS_FILES = [
+  'src/js/*.js'
+];
+var IMG_FILES = [
+  'src/images/*'
+];
+var FONT_FILES = [
+  'src/fonts/*'
+];
 
 
+/**
+ * Default, running `gulp` will bring up the help
+ */
+gulp.task('default', false, ['help']);
+
+/**
+ * Lint
+ *
+ * run eslint without an additional plugin
+*/
+gulp.task('lint', 'Run ESLint', function(done) {
+  return gulp.src(LINT_FILES).pipe(eslint({
+    'rules': {
+      'quotes': [1, 'single'],
+      'semi': [1, 'always']
+    }
+  }))
+  .pipe(eslint.format())
+  // Brick on failure to be super strict
+  .pipe(eslint.failOnError());
+});
 
 
-///Keeping an eye out for anyone saving files
-gulp.task('build', ['watch','browserSync','images','html','javascript','sass','jquery'])
+/**
+ * Scripts
+ *
+ * Look at vendor & app js files, concatenate them and send them to dist/js.
+ * We then minimize the concatenated file.
+*/
 
-gulp.task('watch', function(){
-  gulp.watch('**/*.php'),  browserSync.reload();
-  gulp.watch('src/scss/**/*.scss', ['sass']);
-  gulp.watch('src/*.html', ['html']);
-  gulp.watch('src/js/*.js', ['javascript']);
-  gulp.watch('src/images/**/*', ['images']);
-   // Other watchers
- })
+gulp.task('js', 'Build js files', function() {
+  return gulp.src(JS_FILES)
+    .pipe(concat(JS_APP))
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(uglify())
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(JS_DIST));
+});
 
-//Live webpage reloads yarr
-gulp.task('browserSync', function(){
-    browserSync.init({
-      server:{
-        baseDir: 'dist'
-      },
-    })
-})
+gulp.task('js:watch', false, ['lint', 'js'], function() {
+  browserSync.reload();
+});
 
+/**
+ * Stylesheets
+ *
+ * Look at vendor & app css files, concatenate them and send them to dist/css.
+ * We then minimize the concatenated file.
+*/
 
-//Generates the Final CSS and flattens it to shit
-gulp.task('sass', ['fonts','images'], function(){
-  return gulp.src('src/scss/*.scss')
-  .pipe(sass({
-      includePaths: [config.bootstrapDir + '/assets/stylesheets'],
-  })) // Converts Sass to CSS with gulp-sass
-    .pipe(concat ('concatedfile.css'))
-      .pipe(rename({suffix: '.min'}))
-      .pipe(cssnano())
-      .pipe(gulp.dest('dist/css'))
-      .pipe(browserSync.reload({
-      stream: true
+gulp.task('css', 'Build css files', function() {
+  return gulp.src(SCSS_FILES)
+    .pipe(concat(CSS_APP))
+    .pipe(sass())
+    .pipe(autoprefixer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(cssnano())
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(CSS_DIST));
+});
+
+gulp.task('css:watch', false, ['css'], function() {
+  browserSync.reload();
+});
+
+/**
+ * Images
+ *
+ * Optimization of images and moving them to dist folder
+*/
+gulp.task('img', 'Optimize image files', function() {
+  return gulp.src(IMG_FILES)
+    .pipe(newer(IMG_DIST))
+    .pipe(imagemin({
+      progressive: true,
+      svgoPlugins: [{removeViewBox: false}],
+      use: [pngquant()]
     }))
+    .pipe(gulp.dest(IMG_DIST));
 });
 
-//html
-gulp.task('html', function() {
-    return gulp.src('src/index.html')
-    .pipe(gulp.dest('dist'))
-    .pipe(browserSync.reload({
-    stream: true
-  }))
+gulp.task('img:watch', false, ['img'], function() {
+  browserSync.reload();
 });
 
-//images
-gulp.task('images', function() {
-    return gulp.src('src/images/**/*')
-    .pipe(gulp.dest('dist/images'))
-    .pipe(browserSync.reload({
-    stream: true
-  }))
+/**
+ * Fonts
+ *
+ * Moving fonts to dist folder
+*/
+gulp.task('font', 'Move fonts to dist folder', function() {
+  return gulp.src(FONT_FILES)
+    .pipe(gulp.dest(FONT_DIST));
 });
 
-//javascript
-gulp.task('javascript', function() {
-    return gulp.src('src/js/**/*.js')
-    .pipe(concat ('site.js'))
-    .pipe(gulp.dest('dist/js'))
-    .pipe(browserSync.reload({
-    stream: true
-  }))
+gulp.task('font:watch', false, ['font'], function() {
+  browserSync.reload();
 });
 
-gulp.task('jquery', function () {
-    return gulp.src('node_modules/jquery/dist/*.min.js')
-        .pipe(gulp.dest('src/js'));
-    // creates ./public/vendor/jquery.custom.js
+/**
+ * Build
+*/
+gulp.task('build', 'Build all resources', ['js', 'css', 'img']);
+
+gulp.task('build:dev', 'Build all resources', ['lint', 'js', 'css', 'img']);
+
+/**
+ * dev
+ *
+ * Development mode. This will run a server on localhost which will watch files for changes, rebuild relevant files and update the browser.
+ * Asynchronous browser syncing of assets across multiple devices. Watches for changes to files and runs build tasks
+*/
+gulp.task('dev', 'Build resources, starts server and watch', ['build:dev'], function() {
+  browserSync.init({
+    server: {
+      baseDir: "./"
+    }
+  });
+
+  gulp.watch(SCSS_FILES, ['css:watch']);
+  gulp.watch(JS_FILES, ['js:watch']);
+  gulp.watch(IMG_FILES, ['img:watch']);
+  gulp.watch(FONT_FILES, ['font:watch']);
 });
 
 
-//bootstrap fonts
-gulp.task('fonts', function() {
-    return gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
-    .pipe(gulp.dest(config.publicDir + '/fonts'));
+// bootstrap fonts
+gulp.task('fonts', false, function() {
+  return gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
+  .pipe(gulp.dest(config.publicDir + '/fonts'));
 });

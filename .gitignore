@@ -32,3 +32,9 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+# dist folder
+dist
+
+# pesky Mac .DS_Store files
+.DS_Store
