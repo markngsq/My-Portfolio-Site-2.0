@@ -144,21 +144,21 @@ gulp.task('img:watch', false, ['img'], function() {
  *
  * Moving fonts to dist folder
 */
-gulp.task('font', 'Move fonts to dist folder', function() {
+gulp.task('fonts', 'Move fonts to dist folder', function() {
   return gulp.src(FONT_FILES)
     .pipe(gulp.dest(FONT_DIST));
 });
 
-gulp.task('font:watch', false, ['font'], function() {
+gulp.task('fonts:watch', false, ['font'], function() {
   browserSync.reload();
 });
 
 /**
  * Build
 */
-gulp.task('build', 'Build all resources', ['js', 'css', 'img']);
+gulp.task('build', 'Build all resources', ['js', 'css', 'img', 'fonts']);
 
-gulp.task('build:dev', 'Build all resources', ['lint', 'js', 'css', 'img']);
+gulp.task('build:dev', 'Build all resources', ['lint', 'js', 'css', 'img', 'fonts']);
 
 /**
  * dev
@@ -176,12 +176,5 @@ gulp.task('dev', 'Build resources, starts server and watch', ['build:dev'], func
   gulp.watch(SCSS_FILES, ['css:watch']);
   gulp.watch(JS_FILES, ['js:watch']);
   gulp.watch(IMG_FILES, ['img:watch']);
-  gulp.watch(FONT_FILES, ['font:watch']);
-});
-
-
-// bootstrap fonts
-gulp.task('fonts', false, function() {
-  return gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
-  .pipe(gulp.dest(config.publicDir + '/fonts'));
+  gulp.watch(FONT_FILES, ['fonts:watch']);
 });
