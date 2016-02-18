@@ -27,10 +27,10 @@ var packageJSON = require('./package.json');
 var LISTEN_PORT = 8000;
 
 var SRC_DIRECTORY ='./src';
-var DIST_DIRECTORY ='./dist';
+var DIST_DIRECTORY ='./assets';
 var JS_DIST = DIST_DIRECTORY + '/js/';
 var CSS_DIST = DIST_DIRECTORY + '/css/';
-var IMG_DIST = DIST_DIRECTORY + '/images/';
+var IMG_DIST = DIST_DIRECTORY + '/img/';
 var FONT_DIST = DIST_DIRECTORY + '/fonts/';
 
 var JS_APP = packageJSON.name + '.js';
@@ -47,7 +47,7 @@ var JS_FILES = [
   'src/js/*.js'
 ];
 var IMG_FILES = [
-  'src/images/*'
+  'src/img/*'
 ];
 var FONT_FILES = [
   'src/fonts/*'

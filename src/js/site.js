@@ -4,8 +4,8 @@
 var userData = {
   mark : {
     name: 'Mark Ng',
-    splash: 'dist/images/mark-splash.jpg',
-    image: 'dist/images/mark-inline.jpg',
+    splash: 'assets/img/mark-splash.jpg',
+    image: 'assets/img/mark-inline.jpg',
     qn1: 'Hi my name is Mark',
     qn2: 'mark2',
     qn3: 'mark3',
@@ -17,8 +17,8 @@ var userData = {
   },
   hannah : {
     name: 'Hannah Broom',
-    splash: 'dist/images/hannah-splash.jpg',
-    image: 'dist/images/hannah-inline.jpg',
+    splash: 'assets/img/hannah-splash.jpg',
+    image: 'assets/img/hannah-inline.jpg',
     qn1: 'Quisque velit nisi, pretium ut lacinia in, elementum id enim. \
           Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. \
           Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. \
@@ -62,8 +62,8 @@ var userData = {
   },
   robin : {
     name: 'Robin Barnes',
-    splash: 'dist/images/robin-splash.png',
-    image: 'dist/images/robin-inline.png',
+    splash: 'assets/img/robin-splash.png',
+    image: 'assets/img/robin-inline.png',
     qn1: ' (insert aesthetic here)',
     qn2: 'roro2',
     qn3: 'roro3',
