@@ -2,6 +2,7 @@ var gulp = require('gulp-help')(require('gulp'));
 
 // build
 var browserSync = require('browser-sync').create();
+var php = require('gulp-connect-php');
 
 // css / js / img / lint
 var sourcemaps = require('gulp-sourcemaps');
@@ -167,12 +168,15 @@ gulp.task('build:dev', 'Build all resources', ['lint', 'js', 'css', 'img', 'font
  * Asynchronous browser syncing of assets across multiple devices. Watches for changes to files and runs build tasks
 */
 gulp.task('dev', 'Build resources, starts server and watch', ['build:dev'], function() {
+  php.server({ base: '.', port: 8010, keepalive: true});
   browserSync.init({
-    server: {
-      baseDir: "./"
-    }
+    proxy: '127.0.0.1:8010',
+    port: 8080,
+    open: true,
+    notify: false
   });
 
+  gulp.watch('index.html', ['css:watch']);
   gulp.watch(SCSS_FILES, ['css:watch']);
   gulp.watch(JS_FILES, ['js:watch']);
   gulp.watch(IMG_FILES, ['img:watch']);
