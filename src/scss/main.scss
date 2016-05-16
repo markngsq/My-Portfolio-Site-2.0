@@ -45,6 +45,7 @@ p {
 
 }
 .splash {
+  padding:30px 0 0 30px;
   z-index:1;
   background: no-repeat;
   max-height: 100%;
@@ -75,7 +76,14 @@ p {
 
 .heading {
   padding: 0 0 0 0;
-  height: 734px;
+}
+
+@media (max-width: 768px){
+  .heading {
+    text-align: left;
+    padding-left: 20%;
+
+  }
 }
 
 
@@ -112,7 +120,7 @@ h1
 //  background-color:rgba(255,255,255,0.2);
   font-family: Sectra, sans-serif;
   font-weight: normal;
-  font-size:3.5em;
+  font-size:4em;
   color: #000;
 
 
@@ -172,23 +180,22 @@ h2 {
     z-index: 1000;
     display: block;
     padding: 0 0 0 50px;
-    overflow-x: hidden;
-    overflow-y: scroll; /* Scrollable contents if viewport is shorter than content. */
+    overflow-x:visible;
+    overflow-y:visible; /* Scrollable contents if viewport is shorter than content. */
     line-height: 80%;
-
   }
 }
 
 @media (max-width: 768px) {
   .sidebar {
     font-size: 8pt;
-    top: -450px;
+    top: 450px;
     bottom: 0;
     left: 8%;
     z-index: 1000;
     padding: 0 0 0 50px;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    overflow-x: visible;
+    overflow-y: visible; /* Scrollable contents if viewport is shorter than content. */
   }
 }
 
@@ -198,7 +205,7 @@ h2 {
   margin-bottom: 20px;
   margin-left: -20px;
   letter-spacing: 0.5px;
-  height:300px;
+  height:0px;
   z-index:100
 }
 }
