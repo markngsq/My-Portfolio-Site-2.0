@@ -5,12 +5,12 @@ var userData = {
   foreword : {
     name: 'Mark Ng',
     splash: 'assets/img/mark-splash.jpg',
-    image: 'assets/img/mark-inline.jpg',
+    image1: 'assets/img/mark-inline-1.jpg',
+    image2: 'assets/img/mark-inline-2.jpg',
+    image3: 'assets/img/mark-inline-3.jpg',
+    image4: 'assets/img/mark-inline-4.jpg',
+    image5: 'assets/img/mark-inline-5.jpg',
     qn1: 'Hi my name is Mark',
-    qn2: 'mark2',
-    qn3: 'mark3',
-    qn4: 'mark4',
-    qn5: 'mark5',
     contact1: '+65 mmmm mmmmmm',
     contact2: 'www.markng.net',
     contact3: 'markngshiqiang@gmail.com',
@@ -20,18 +20,40 @@ var userData = {
   mark : {
     name: 'Mark Ng',
     splash: 'assets/img/mark-splash.jpg',
-    image: 'assets/img/mark-inline.jpg',
-    qn1: 'Hi my name is Mark',
-    qn2: 'mark2',
-    qn3: 'mark3',
-    qn4: 'mark4',
-    qn5: 'mark5',
-    contact1: '+65 mmmm mmmmmm',
+    image1: 'assets/img/mark-inline-1.jpg',
+    image2: 'assets/img/mark-inline-2.jpg',
+    image3: 'assets/img/mark-inline-3.jpg',
+    image4: 'assets/img/mark-inline-4.jpg',
+    image5: 'assets/img/mark-inline-5.jpg',
+    qn1: 'Snap.Web is a website you can physically build with your hands — no coding required. Using physical components that represent web elements, users can customise their own layouts and scan them into the website.Snap.Web also aims to help people who don’t code understand HTML and CSS by simplifying it into bite-sized chunks that even a non-coder can digest.',
+    contact1: '+44 (0) 7716 908450',
     contact2: 'www.markng.net',
     contact3: 'markngshiqiang@gmail.com',
     colorswitch: false,
     student: true
   },
+
+/* template
+
+  temp : {
+    name: 'temp',
+    splash: 'assets/img/temp-splash.jpg',
+    image1: 'assets/img/temp-inline-1.jpg',
+    image2: 'assets/img/temp-inline-2.jpg',
+    image3: 'assets/img/temp-inline-3.jpg',
+    image4: 'assets/img/temp-inline-4.jpg',
+    image5: 'assets/img/temp-inline-5.jpg',
+    qn1: 'temp',
+    contact1: 'number',
+    contact2: 'website',
+    contact3: 'email',
+    colorswitch: false,
+    student: true
+  },
+
+*/
+
+
   hannah : {
     name: 'Hannah Broom',
     splash: 'assets/img/hannah-splash.jpg',
@@ -141,7 +163,11 @@ $('.user-link').on('click', function(e) {
   document.title = (userMeta.name);
   $('.user-name').text(userMeta.name);
   $('.user-splash').css('background-image', 'url(' + userMeta.splash + ')');
-  $('.user-image').attr('src', userMeta.image);
+  $('.user-image-1').attr('src', userMeta.image1);
+  $('.user-image-2').attr('src', userMeta.image2);
+  $('.user-image-3').attr('src', userMeta.image3);
+  $('.user-image-4').attr('src', userMeta.image4);
+  $('.user-image-5').attr('src', userMeta.image5);
   $('.qn1').text(userMeta.qn1);
   $('.qn2').text(userMeta.qn2);
   $('.qn3').text(userMeta.qn3);
