@@ -179,8 +179,10 @@ $('.user-link').on('click', function(e) {
 
   if (userMeta.colorswitch === true) {
     $('.color-switch').addClass( 'whitetext');
+    $('.color-switch').attr('src', 'assets/img/logo-white.svg');
   }else{
-    $( '.color-switch' ).removeClass( 'whitetext' );
+    $('.color-switch').removeClass( 'whitetext' );
+    $('.color-switch').attr('src', 'assets/img/logo-black.svg');
   };
 
   if (userMeta.student === true) {

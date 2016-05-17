@@ -35,23 +35,37 @@ p {
 }
 
 /*Splash image, somehow magically keeps the splash image in place so its not moving!*/
-
+/* Disabled because it pushes the rest of the columns down in mobile
 .splash:before {
   content:" ";
   display:inline-block;
   height:100%;
   vertical-align:middle;
   font-size:0;
+}*/
 
-}
 .splash {
   padding:30px 0 0 30px;
-  z-index:1;
+  z-index:-100;
   background: no-repeat;
   max-height: 100%;
   background-position: center center;
   background-size: cover;
+
 }
+@media (max-width: 960px) {
+.splash {
+  box-shadow: inset 0 0 0 1000px rgba(255,255,255,0.8);
+  padding:30px 0 0 30px;
+  z-index:-100;
+  background: no-repeat;
+  height:700px;
+  background-position: center center;
+  background-size: cover;
+}
+}
+
+
 // in case of gradient fades, use this shiz!
  .grad-fade {
    height: 100%;
@@ -78,7 +92,7 @@ p {
   padding: 0 0 0 0;
 }
 
-@media (max-width: 768px){
+@media (max-width: 960px){
   .heading {
     text-align: left;
     padding-left: 20%;
@@ -90,6 +104,8 @@ p {
 .whitetext{
   color:#fff !important;
 }
+
+
 
 #disqus_thread {
   overflow: hidden;
@@ -120,8 +136,10 @@ h1
 //  background-color:rgba(255,255,255,0.2);
   font-family: Sectra, sans-serif;
   font-weight: normal;
-  font-size:4em;
+  font-size:38pt;
   color: #000;
+  padding-left: 40px;
+
 
 
 }
@@ -129,13 +147,13 @@ h1
 @media screen and (max-width: 1000px){
   h1
   {
-    margin-right: 20%;
+    margin-right: 22%;
   //  background-color:rgba(255,255,255,0.2);
     font-family: Sectra, sans-serif;
     font-weight: normal;
-    font-size:1.5em;
+    font-size:38pt;
     color: #000;
-
+    padding-left: 0;
 
   }
 
@@ -172,7 +190,7 @@ h2 {
 .sidebar {
   display:inherit;
 }
-@media (min-width: 768px) {
+@media (min-width: 960px) {
   .sidebar {
     font-size: 8pt;
     position:relative;
@@ -188,14 +206,14 @@ h2 {
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .sidebar {
     font-size: 8pt;
-    top: 450px;
+    top: 25%;
     bottom: 0;
     left: 8%;
     z-index: 1000;
-    padding: 0 0 0 50px;
+    padding: 0 0 0 30px;
     line-height: 80%;
 
     overflow-x: visible;
@@ -204,13 +222,14 @@ h2 {
 }
 
 /* Sidebar navigation */
-@media (max-width: 768px) { .nav-sidebar {
+@media (max-width: 960px) {
+  .nav-sidebar {
   margin-right: -21px; /* 20px padding + 1px border */
   margin-bottom: 20px;
   margin-left: -20px;
   letter-spacing: 0.5px;
   height:0px;
-  z-index:100
+  z-index:1000
 }
 }
 
@@ -251,7 +270,7 @@ h2 {
 .main {
   padding: 20px;
 }
-@media (min-width: 768px) {
+@media (min-width: 960px) {
   .main {
     padding-right: 40px;
     padding-left: 40px;
